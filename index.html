@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pin Generator</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+        integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="pin-generator half-width">
+                    <input class="form-control" id="random" type="text">
+                    <button id="generate-btn-id" class="generate-btn">Generate Pin</button>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="input-section half-width">
+                    <input class="form-control" id="usr-display-id" type="text">
+                    <div class="numbers">
+                        <div class="calc-body">
+                            <div class="calc-button-row">
+                                <div class="button digit">7</div>
+                                <div class="button digit">8</div>
+                                <div class="button digit">9</div>
+                            </div>
+                            <div class="calc-button-row">
+                                <div class="button digit">4</div>
+                                <div class="button digit">5</div>
+                                <div class="button digit">6</div>
+                            </div>
+                            <div class="calc-button-row">
+                                <div class="button digit">1</div>
+                                <div class="button digit">2</div>
+                                <div class="button digit">3</div>
+                            </div>
+                            <div class="calc-button-row">
+                                <div class="button delete">
+                                    > </div>
+                                <div class="button digit">0</div>
+                                <div class="button clear">C</div>
+                            </div>
+                            <div>
+                                <button type="submit" class="submit-btn" id="submit-btn-id">Submit</button>
+                                <p class="action-left"><span id="tryNumber">3</span> try left</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="notify-section">
+                <p id="wrong" class="notify">❌ Pin Didn't Match, Please try again</p>
+                <p id="right" class="notify">✅ Pin Matched... Secret door is opening for you</p>
+            </div>
+        </div>
+
+
+        <script>
+
+
+
+            // generating Random pin
+
+            const pinBtn = document.getElementById("generate-btn-id");
+            const pin_display = document.getElementById("random");
+
+            pinBtn.addEventListener('click', function () {
+                pin_display.value = Math.floor(1000 + Math.random() * 9000);   // generating random number from 1000 to 9999
+
+            });
+
+
+
+            // User Input from buttons
+
+            const userInputs = document.querySelector(".numbers");
+            let userDisplay = document.getElementById("usr-display-id");
+
+            userInputs.addEventListener('click', function (event) {
+
+                if (event.target.classList.contains("button")) {
+
+                    if (event.target.className == "button digit") {
+
+                        userDisplay.value += event.target.innerHTML;
+                    }
+
+                    if (event.target.className == "button clear") {
+
+                        userDisplay.value = "";
+                    }
+
+                    if (event.target.className == "button delete") {
+
+                        userDisplay.value = userDisplay.value.slice(0, userDisplay.value.length - 1);
+                    }
+
+                }
+
+            });
+
+
+            // Verifying user input with generate data
+
+            const submitBtn = document.getElementById("submit-btn-id");
+
+            const right = document.getElementById("right");    // ✅ Pin Matched... Secret door is opening for you
+
+            const wrong = document.getElementById("wrong");    // ❌  Pin Didn't Match, Please try again
+
+            const tryNumber = document.getElementById("tryNumber");
+
+            var i = 3;                          //  i=3 means The number you can try                
+
+            submitBtn.addEventListener('click', function () {
+
+                if (userDisplay.value == pin_display.value) {
+
+                    right.style.display = 'block';
+                    wrong.style.display = 'none';
+
+                }
+
+                else {
+
+                    wrong.style.display = 'block';
+                    right.style.display = 'none';
+                    i--;
+                    tryNumber.innerHTML = i;
+
+                    if (i == 0) {
+                        submitBtn.style.backgroundColor = "red";
+                        submitBtn.disabled = true;
+
+                    }
+                }
+
+            });
+
+
+        </script>
+
+
+
+
+        <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+            integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+            crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+            integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+            crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+            integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+            crossorigin="anonymous"></script>
+</body>
+
+</html>
